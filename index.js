@@ -4,18 +4,18 @@ const app = express()
 app.use(express.json())
 
 app.post('/convert', (req, res) => {
-
-    soap.createClient(req.body.url, {}, (err, client) => {
+    
+    soap.createClient(req.body.url, (err, client) => {
+        
         var method = client[req.body.operation];
-        method({ zipcode: req.body.Args }, function (err, result, envelope, soapHeader) {
-
-
-            res.send({ result, envelope })
+        method({anyAttribute:req.body.anyAttribute}, function (err, result, envelope) {
+            
+            res.send({ result, envelope  })
         });
     })
 })
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
-    console.log('server is up and running ')
+    console.log(`server is up and running on post ${port}`) 
 })
